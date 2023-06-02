@@ -1,14 +1,15 @@
 using IWantoApp_Project2.EndPoints.Categories;
 using IWantoApp_Project2.Infra.Data.Config;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSqlServer<IWantDBContext>(builder.Configuration["ConnectionStrings:IWandDataBase"]);
+builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<IWantDBContext>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
-
 
 
 // Configure the HTTP request pipeline.

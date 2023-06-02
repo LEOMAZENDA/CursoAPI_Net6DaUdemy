@@ -1,26 +1,19 @@
 ﻿using Flunt.Notifications;
 using IWantoApp_Project2.Domain.Products;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace IWantoApp_Project2.Infra.Data.Config;
 
-public class IWantDBContext : DbContext
+public class IWantDBContext : IdentityDbContext<IdentityUser>
 {
-
     public IWantDBContext(DbContextOptions<IWantDBContext> options) : base(options)
     { /*Database.EnsureCreated();*/ }
 
     public DbSet<Category> Categories { get; set; }
     public DbSet<Product> Products { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        if (!optionsBuilder.IsConfigured)
-        {
-            optionsBuilder.UseSqlServer(GetStringConectionConfig());
-            base.OnConfiguring(optionsBuilder);
-        }
-    }
 
     private string GetStringConectionConfig()
     {
@@ -33,16 +26,14 @@ public class IWantDBContext : DbContext
         return strCon;
     }
 
-
-    protected override void OnModelCreating(ModelBuilder builder)
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        builder.Ignore<Notification>();//Ignorada
 
-        builder.Entity<Product>().Property(p => p.Desciption).HasMaxLength(255).IsRequired(false);
-        builder.Entity<Product>().Property(p => p.Name).IsRequired();
-        builder.Entity<Product>().Property(p => p.Name).IsRequired();
-
-        builder.Entity<Category>().Property(p => p.Name).IsRequired();
+        if (!optionsBuilder.IsConfigured)
+        {
+            optionsBuilder.UseSqlServer(GetStringConectionConfig());
+            base.OnConfiguring(optionsBuilder);
+        }
     }
 
     //Convençoes do EF
@@ -50,4 +41,19 @@ public class IWantDBContext : DbContext
     {
         configuration.Properties<string>().HaveMaxLength(120);
     }
+
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        base.OnModelCreating(builder);// Nao esquecer e isso resolve a
+        // questão da primary key de IdentityUser quando é cobrada na migration
+
+        builder.Ignore<Notification>();//Ignorada
+
+        builder.Entity<Product>().Property(p => p.Desciption).HasMaxLength(255).IsRequired(false);
+        builder.Entity<Product>().Property(p => p.Name).IsRequired();
+        builder.Entity<Product>().Property(p => p.Name).IsRequired();
+        builder.Entity<Category>().Property(p => p.Name).IsRequired();
+    }
+
+
 }

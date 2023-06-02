@@ -4,6 +4,7 @@ using IWantoApp_Project2.Infra.Data.Config;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IWantoApp_Project2.Migrations
 {
     [DbContext(typeof(IWantDBContext))]
-    partial class IWantDBContextModelSnapshot : ModelSnapshot
+    [Migration("20230602210239_InitialDataBaseCreate")]
+    partial class InitialDataBaseCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
