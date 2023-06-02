@@ -12,16 +12,7 @@ public class CategoryPost
 
     public static IResult Action(CategoryRequest categoryRequest, IWantDBContext context)
     {
-        var category = new Category(categoryRequest.Name/* string.Empty*/)
-        {
-            Name = categoryRequest.Name,
-            CreatedBy = "Teste",
-            CreatedOn = DateTime.Now,
-            EditedBy = "Test2",
-            EditedOn = DateTime.Now,
-            Active = true
-        };
-
+        var category = new Category(categoryRequest.Name, "TEste", "Teste");
 
         if (!category.IsValid)
             return Results.BadRequest(category.Notifications);
