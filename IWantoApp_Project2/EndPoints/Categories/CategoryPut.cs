@@ -12,16 +12,20 @@ public class CategoryPut
 
     public static IResult Action([FromRoute] Guid id, CategoryRequest categoryRequest, IWantDBContext context)
     {
-        var cat = context.Categories.Where(c => c.Id == id).FirstOrDefault();
+        var category = context.Categories.Where(c => c.Id == id).FirstOrDefault();
 
-        cat.Name = categoryRequest.Name;
-        cat.Active = categoryRequest.Active;
+        if (category == null)
+            return Results.NotFound("Category não encontrada");
+
+        category.EditInfo(categoryRequest.Name, categoryRequest.Active);
+
+        if (!category.IsValid)
+            return Results.ValidationProblem(category.Notifications.ConvertToProblemDetails());
 
         context.SaveChanges();
         return Results.Ok();
 
 
-        //if (category == null)
-        //    return Results.NotFound("Category não encontrada");
+
     }
 }
