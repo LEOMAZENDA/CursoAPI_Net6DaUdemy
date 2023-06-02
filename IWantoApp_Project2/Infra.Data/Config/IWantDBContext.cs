@@ -36,7 +36,7 @@ public class IWantDBContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
-        builder.Ignore<Notification>();//Ignorada pq nao deve ir ao banco
+        builder.Ignore<Notification>();//Ignorada
 
         builder.Entity<Product>().Property(p => p.Desciption).HasMaxLength(255).IsRequired(false);
         builder.Entity<Product>().Property(p => p.Name).IsRequired();

@@ -12,7 +12,7 @@ public class CategoryPost
 
     public static IResult Action(CategoryRequest categoryRequest, IWantDBContext context)
     {
-        var category = new Category(categoryRequest.Name, "TEste", "Teste");
+        var category = new Category(categoryRequest.Name, "Teste", "Teste");
 
         if (!category.IsValid)
             return Results.BadRequest(category.Notifications);
@@ -20,6 +20,6 @@ public class CategoryPost
         context.Categories.Add(category);
         context.SaveChanges();
 
-        return Results.Created($"/cateroies/{category.Id}", category.Id);// Retorna o Id Salvo
+        return Results.Created($"/cateroies/{category.Id}", category.Id);// Retornar o Id Salvo
     }
 }

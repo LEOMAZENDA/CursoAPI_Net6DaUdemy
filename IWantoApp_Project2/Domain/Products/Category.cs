@@ -8,19 +8,20 @@ public class Category : Entity
     public string Name { get; set; }
 
 
-    public Category(string name, string CreatedBy, string EditedBy)
+    public Category(string name, string createdBy, string editedBy)
     {
         var contracto = new Contract<Category>()
             .IsNotNullOrEmpty(name, "Name", "O Nome é obrigatório")
-         .IsNotNullOrEmpty(CreatedBy, "CreatedBy")
-         .IsNotNullOrEmpty(EditedBy, "EditedBy");
+            .IsNotNullOrEmpty(createdBy, "CreatedBy")
+            .IsNotNullOrEmpty(editedBy, "EditedBy");
+
         AddNotifications(contracto);
 
         Name = name;
-        CreatedBy = "Teste";
-        CreatedOn = DateTime.Now;
-        EditedBy = "Test2";
-        EditedOn = DateTime.Now;
         Active = true;
+        CreatedBy = createdBy;
+        EditedBy = editedBy;
+        CreatedOn = DateTime.Now;
+        EditedOn = DateTime.Now;
     }
 }

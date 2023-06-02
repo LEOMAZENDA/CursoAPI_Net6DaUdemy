@@ -1,5 +1,4 @@
 ﻿using Flunt.Notifications;
-using System.ComponentModel.DataAnnotations;
 
 namespace IWantoApp_Project2.Domain;
 
@@ -10,7 +9,6 @@ public abstract class Entity : Notifiable<Notification>
         Id = Guid.NewGuid(); // Para Gerar o Id
     }
     public Guid Id { get; set; }
-    [Required(ErrorMessage = "O Nome é obrigatório")]
     public string Name { get; set; }
     public string CreatedBy { get; set; }
     public DateTime CreatedOn { get; set; }
