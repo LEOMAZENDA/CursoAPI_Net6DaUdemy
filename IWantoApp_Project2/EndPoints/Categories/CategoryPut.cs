@@ -24,8 +24,5 @@ public class CategoryPut
 
         context.SaveChanges();
         return Results.Ok();
-
-
-
     }
 }
