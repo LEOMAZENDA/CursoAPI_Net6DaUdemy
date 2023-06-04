@@ -1,5 +1,6 @@
 using IWantoApp_Project2.EndPoints.Categories;
 using IWantoApp_Project2.EndPoints.Employees;
+using IWantoApp_Project2.EndPoints.TokenSecurity;
 using IWantoApp_Project2.Infra.Data.Config;
 using Microsoft.AspNetCore.Identity;
 
@@ -41,6 +42,7 @@ app.MapMethods(CategoryPut.Template, CategoryPut.Mehods, CategoryPut.Handle);
 app.MapMethods(EmployeePost.Template, EmployeePost.Mehods, EmployeePost.Handle);
 app.MapMethods(EmployeeGet.Template, EmployeeGet.Mehods, EmployeeGet.Handle);
 app.MapMethods(EmployeeGet_Dpper.Template, EmployeeGet_Dpper.Mehods, EmployeeGet_Dpper.Handle);
+app.MapMethods(TokenPost.Template, TokenPost.Mehods, TokenPost.Handle);
 
 
 app.Run();
