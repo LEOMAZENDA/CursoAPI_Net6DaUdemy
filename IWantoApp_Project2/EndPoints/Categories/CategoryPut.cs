@@ -9,7 +9,6 @@ public class CategoryPut
     public static string[] Mehods => new string[] { HttpMethod.Put.ToString() };
     public static Delegate Handle => Action;
 
-
     public static IResult Action([FromRoute] Guid id, CategoryRequest categoryRequest, IWantDBContext context)
     {
         var category = context.Categories.Where(c => c.Id == id).FirstOrDefault();

@@ -1,7 +1,9 @@
 ﻿using IWantoApp_Project2.Infra.Data.Config;
+using Microsoft.AspNetCore.Authorization;
 
 namespace IWantoApp_Project2.EndPoints.Categories;
 
+[Authorize]
 public class CategoryGetAll
 {
     public static string Template => "/cateroies";

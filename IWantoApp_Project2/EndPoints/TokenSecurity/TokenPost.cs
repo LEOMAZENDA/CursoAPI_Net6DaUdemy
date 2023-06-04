@@ -14,7 +14,7 @@ public class TokenPost
 
 
     //Este endpoint adiciona um user Identity
-    public static IResult Action(LoginRequest loginRequest, UserManager<IdentityUser> userManager)
+    public static IResult Action(LoginRequest loginRequest, IConfiguration configuration, UserManager<IdentityUser> userManager)
     {
         var user = userManager.FindByEmailAsync(loginRequest.Email).Result;
         if (user == null)
@@ -23,7 +23,7 @@ public class TokenPost
             Results.BadRequest();
 
         //GERANDO O TOKEN 
-        var key = Encoding.ASCII.GetBytes("@ASDsfjjk#?9743sfgkkf95uçghas");
+        var key = Encoding.ASCII.GetBytes(configuration["JwtBearerTokenSettings:Secretkey"]);
         var tokekDescriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity(new Claim[]
@@ -31,9 +31,10 @@ public class TokenPost
                 new Claim(ClaimTypes.Email, loginRequest.Email),
             }),
             SigningCredentials =
-                new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
-            Audience = "IWantoApp_Project2",
-            Issuer = "Issuer"
+                new SigningCredentials(
+                    new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
+            Audience = configuration["JwtBearerTokenSettings:Audience"],
+            Issuer = configuration["JwtBearerTokenSettings:Issuer"]
         };
 
         var tokenHendler = new JwtSecurityTokenHandler();
