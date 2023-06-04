@@ -16,6 +16,8 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 })
     .AddEntityFrameworkStores<IWantDBContext>();
 
+builder.Services.AddScoped<QuarydapperAllUserWithName>();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -38,6 +40,7 @@ app.MapMethods(CategoryPut.Template, CategoryPut.Mehods, CategoryPut.Handle);
 
 app.MapMethods(EmployeePost.Template, EmployeePost.Mehods, EmployeePost.Handle);
 app.MapMethods(EmployeeGet.Template, EmployeeGet.Mehods, EmployeeGet.Handle);
+app.MapMethods(EmployeeGet_Dpper.Template, EmployeeGet_Dpper.Mehods, EmployeeGet_Dpper.Handle);
 
 
 app.Run();
