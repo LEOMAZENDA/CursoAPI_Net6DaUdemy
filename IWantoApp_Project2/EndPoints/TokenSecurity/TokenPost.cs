@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -12,8 +13,7 @@ public class TokenPost
     public static string[] Mehods => new string[] { HttpMethod.Post.ToString() };
     public static Delegate Handle => Action;
 
-
-    //Este endpoint adiciona um user Identity
+    [AllowAnonymous]
     public static IResult Action(LoginRequest loginRequest, IConfiguration configuration, UserManager<IdentityUser> userManager)
     {
         var user = userManager.FindByEmailAsync(loginRequest.Email).Result;
@@ -24,6 +24,7 @@ public class TokenPost
 
         //GERANDO O TOKEN 
         var key = Encoding.ASCII.GetBytes(configuration["JwtBearerTokenSettings:Secretkey"]);
+
         var tokekDescriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity(new Claim[]

@@ -2,7 +2,7 @@
 
 namespace IWantoApp_Project2.EndPoints.Employees;
 
-public class EmployeeGet
+public class EmployeeGetAll
 {
     public static string Template => "/employee";
     public static string[] Mehods => new string[] { HttpMethod.Get.ToString() };
@@ -10,6 +10,7 @@ public class EmployeeGet
 
 
     //Este endpoint adiciona um user Identity
+    //[Authorize]
     public static IResult Action(int page, int rows, UserManager<IdentityUser> userManager)
     {
         var users = userManager.Users.Skip((page - 1) * rows).Take(rows).ToList();//Paginacao na lista

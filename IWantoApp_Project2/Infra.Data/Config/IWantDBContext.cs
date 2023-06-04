@@ -21,7 +21,7 @@ public class IWantDBContext : IdentityDbContext<IdentityUser>
             .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
             .AddJsonFile("appsettings.json")
             .Build();
-        string strCon = configurationManager.GetConnectionString("IWandDataBase");
+        string strCon = configurationManager.GetConnectionString("IWantApp");
 
         return strCon;
     }

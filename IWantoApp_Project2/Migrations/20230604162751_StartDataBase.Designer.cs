@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IWantoApp_Project2.Migrations
 {
     [DbContext(typeof(IWantDBContext))]
-    [Migration("20230602210239_InitialDataBaseCreate")]
-    partial class InitialDataBaseCreate
+    [Migration("20230604162751_StartDataBase")]
+    partial class StartDataBase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

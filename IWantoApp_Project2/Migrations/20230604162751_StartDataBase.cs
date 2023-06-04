@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace IWantoApp_Project2.Migrations
 {
-    public partial class InitialDataBaseCreate : Migration
+    public partial class StartDataBase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
