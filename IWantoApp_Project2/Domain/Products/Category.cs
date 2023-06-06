@@ -30,7 +30,7 @@ public class Category : Entity
         AddNotifications(contracto);
     }
 
-    public void EditInfo(string name, bool active)
+    public void EditInfo(string name, bool active, string editedBy)
     {
         Active = active;
         Name = name;

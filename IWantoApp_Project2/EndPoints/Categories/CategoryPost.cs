@@ -1,6 +1,7 @@
 ﻿using IWantoApp_Project2.Domain.Products;
 using IWantoApp_Project2.Infra.Data.Config;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace IWantoApp_Project2.EndPoints.Categories;
 
@@ -10,10 +11,12 @@ public class CategoryPost
     public static string[] Mehods => new string[] { HttpMethod.Post.ToString() };
     public static Delegate Handle => Action;
 
-    [Authorize]
-    public static IResult Action(CategoryRequest categoryRequest, IWantDBContext context)
+    [Authorize("EmployeePolicy")]
+    public static IResult Action(CategoryRequest categoryRequest,HttpContext httpCont ,IWantDBContext context)
     {
-        var category = new Category(categoryRequest.Name, "Teste", "Teste");
+        //Obter o user Identity que fez a operação
+        var userId = httpCont.User.Claims.First(u => u.Type == ClaimTypes.NameIdentifier).Value;
+        var category = new Category(categoryRequest.Name, userId, userId);
 
         if (!category.IsValid)
         {

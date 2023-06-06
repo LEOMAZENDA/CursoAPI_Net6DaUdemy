@@ -3,6 +3,7 @@ using IWantoApp_Project2.EndPoints.Employees;
 using IWantoApp_Project2.EndPoints.TokenSecurity;
 using IWantoApp_Project2.Infra.Data.Config;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -18,15 +19,22 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
     options.Password.RequiredLength = 6; //Tamanho minimo de caracteres da password (6)
 }).AddEntityFrameworkStores<IWantDBContext>();
 
-//builder.Services.AddAuthorization(options =>
-//{
-//    options.FallbackPolicy = new AuthorizationPolicyBuilder()
-//      .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
-//      .RequireAuthenticatedUser()
-//      .Build();
-//});
+builder.Services.AddAuthorization(options =>
+{
+    options.FallbackPolicy = new AuthorizationPolicyBuilder()
+      .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
+      .RequireAuthenticatedUser()
+      .Build();
 
-builder.Services.AddAuthorization();//Adicionado o serviço de autorização
+    //atribuindo politica  de permissão par quem pode usar um metodo
+    options.AddPolicy("EmployeePolicy", p =>
+        p.RequireAuthenticatedUser().RequireClaim("EmployeeCode"));
+
+    options.AddPolicy("Employee005Policy", p =>
+        p.RequireAuthenticatedUser().RequireClaim("EmployeeCode","005"));
+});
+
+////builder.Services.AddAuthorization();//Adicionado o serviço de autorização
 builder.Services.AddAuthentication(x =>
 {//A baixo, Adicionado o serviço de Autenticação
     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -40,6 +48,7 @@ builder.Services.AddAuthentication(x =>
         ValidateIssuer = true,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
+        ClockSkew = TimeSpan.Zero,//Sem tempo de bonus do token
         ValidIssuer = builder.Configuration["JwtBearerTokenSettings:Issuer"],
         ValidAudience = builder.Configuration["JwtBearerTokenSettings:Audience"],
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtBearerTokenSettings:Secretkey"]))
@@ -56,6 +65,7 @@ app.UseAuthentication();// sempre no primeiro lugar
 app.UseAuthorization(); // sempre no segundo lugar
 
 // Configure the HTTP request pipeline.
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

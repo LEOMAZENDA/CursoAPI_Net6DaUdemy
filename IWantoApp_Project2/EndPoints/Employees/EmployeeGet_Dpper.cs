@@ -1,4 +1,5 @@
 ﻿using IWantoApp_Project2.Infra.Data.Config;
+using Microsoft.AspNetCore.Authorization;
 
 namespace IWantoApp_Project2.EndPoints.Employees;
 
@@ -10,6 +11,7 @@ public class EmployeeGet_Dpper
 
 
     //Este endpoint está sendo configurado usando o dapper
+    [Authorize(Policy = "EmployeePolicy")]
     public static IResult Action(int? page, int? rows, QuarydapperAllUserWithName quarydapper)
     {
         if (!page.HasValue || !rows.HasValue)

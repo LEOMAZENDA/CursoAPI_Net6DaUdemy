@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace IWantoApp_Project2.EndPoints.Employees;
 
@@ -10,7 +11,6 @@ public class EmployeeGetAll
 
 
     //Este endpoint adiciona um user Identity
-    //[Authorize]
     public static IResult Action(int page, int rows, UserManager<IdentityUser> userManager)
     {
         var users = userManager.Users.Skip((page - 1) * rows).Take(rows).ToList();//Paginacao na lista

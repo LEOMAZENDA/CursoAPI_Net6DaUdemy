@@ -21,21 +21,27 @@ public class TokenPost
             return Results.BadRequest();
         if (!userManager.CheckPasswordAsync(user, loginRequest.Password).Result)
             return Results.BadRequest();
+        var claims = userManager.GetClaimsAsync(user).Result;
 
+        var subject = new ClaimsIdentity(new Claim[]
+        {
+            new Claim(ClaimTypes.Email, loginRequest.Email),
+            new Claim(ClaimTypes.NameIdentifier, user.Id),
+        });
+        subject.AddClaims(claims);
         //GERANDO O TOKEN 
         var key = Encoding.ASCII.GetBytes(configuration["JwtBearerTokenSettings:Secretkey"]);
 
         var tokekDescriptor = new SecurityTokenDescriptor
-        {
-            Subject = new ClaimsIdentity(new Claim[]
-            {
-                new Claim(ClaimTypes.Email, loginRequest.Email),
-            }),
+        {       
+            Subject = subject,
             SigningCredentials =
                 new SigningCredentials(
                     new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
             Audience = configuration["JwtBearerTokenSettings:Audience"],
-            Issuer = configuration["JwtBearerTokenSettings:Issuer"]
+            Issuer = configuration["JwtBearerTokenSettings:Issuer"],
+            Expires = DateTime.UtcNow.AddSeconds(20)  /*Duração do Token em segundos*/
+
         };
 
         var tokenHendler = new JwtSecurityTokenHandler();
