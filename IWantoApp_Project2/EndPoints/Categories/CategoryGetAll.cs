@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace IWantoApp_Project2.EndPoints.Categories;
 
-[AllowAnonymous]
+[Authorize]
 public class CategoryGetAll
 {
     public static string Template => "/cateroies";

@@ -1,5 +1,6 @@
 ﻿using IWantoApp_Project2.Domain.Products;
 using IWantoApp_Project2.Infra.Data.Config;
+using Microsoft.AspNetCore.Authorization;
 
 namespace IWantoApp_Project2.EndPoints.Categories;
 
@@ -9,7 +10,7 @@ public class CategoryPost
     public static string[] Mehods => new string[] { HttpMethod.Post.ToString() };
     public static Delegate Handle => Action;
 
-    //[Authorize]
+    [Authorize]
     public static IResult Action(CategoryRequest categoryRequest, IWantDBContext context)
     {
         var category = new Category(categoryRequest.Name, "Teste", "Teste");

@@ -18,9 +18,9 @@ public class TokenPost
     {
         var user = userManager.FindByEmailAsync(loginRequest.Email).Result;
         if (user == null)
-            Results.BadRequest();
+            return Results.BadRequest();
         if (!userManager.CheckPasswordAsync(user, loginRequest.Password).Result)
-            Results.BadRequest();
+            return Results.BadRequest();
 
         //GERANDO O TOKEN 
         var key = Encoding.ASCII.GetBytes(configuration["JwtBearerTokenSettings:Secretkey"]);
