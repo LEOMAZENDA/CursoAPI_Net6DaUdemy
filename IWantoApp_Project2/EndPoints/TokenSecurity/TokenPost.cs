@@ -40,7 +40,7 @@ public class TokenPost
                     new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
             Audience = configuration["JwtBearerTokenSettings:Audience"],
             Issuer = configuration["JwtBearerTokenSettings:Issuer"],
-            Expires = DateTime.UtcNow.AddSeconds(120)  /*Duração do Token em segundos (2 minitos neste caso)*/
+            Expires = DateTime.UtcNow.AddSeconds(7200)  /*Duração do Token em segundos (2 minitos neste caso)*/
 
         };
 

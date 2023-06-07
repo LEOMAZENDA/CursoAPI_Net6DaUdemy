@@ -1,5 +1,6 @@
 using IWantoApp_Project2.EndPoints.Categories;
 using IWantoApp_Project2.EndPoints.Employees;
+using IWantoApp_Project2.EndPoints.Products;
 using IWantoApp_Project2.EndPoints.TokenSecurity;
 using IWantoApp_Project2.Infra.Data.Config;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -19,20 +20,20 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
     options.Password.RequiredLength = 6; //Tamanho minimo de caracteres da password (6)
 }).AddEntityFrameworkStores<IWantDBContext>();
 
-builder.Services.AddAuthorization(options =>
-{
-    options.FallbackPolicy = new AuthorizationPolicyBuilder()
-      .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
-      .RequireAuthenticatedUser()
-      .Build();
-    //atribuindo politica  de permissão par quem pode usar um metodo
-    options.AddPolicy("EmployeePolicy", p =>
-        p.RequireAuthenticatedUser().RequireClaim("EmployeeCode"));
-    options.AddPolicy("Employee005Policy", p =>
-        p.RequireAuthenticatedUser().RequireClaim("EmployeeCode", "005"));
-});
+//builder.Services.AddAuthorization(options =>
+//{
+//    options.FallbackPolicy = new AuthorizationPolicyBuilder()
+//      .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
+//      .RequireAuthenticatedUser()
+//      .Build();
+//    //atribuindo politica  de permissão par quem pode usar um metodo
+//    options.AddPolicy("EmployeePolicy", p =>
+//        p.RequireAuthenticatedUser().RequireClaim("EmployeeCode"));
+//    options.AddPolicy("Employee005Policy", p =>
+//        p.RequireAuthenticatedUser().RequireClaim("EmployeeCode", "005"));
+//});
 
-//builder.Services.AddAuthorization();//Adicionado o serviço de autorização
+builder.Services.AddAuthorization();//Adicionado o serviço de autorização
 builder.Services.AddAuthentication(x =>
 {//A baixo, Adicionado o serviço de Autenticação
     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -73,6 +74,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 //Passando os EndPoins
+app.MapMethods(TokenPost.Template, TokenPost.Mehods, TokenPost.Handle);
+
 app.MapMethods(CategoryPost.Template, CategoryPost.Mehods, CategoryPost.Handle);
 app.MapMethods(CategoryGetAll.Template, CategoryGetAll.Mehods, CategoryGetAll.Handle);
 app.MapMethods(CategoryPut.Template, CategoryPut.Mehods, CategoryPut.Handle);
@@ -81,6 +84,8 @@ app.MapMethods(EmployeePost.Template, EmployeePost.Mehods, EmployeePost.Handle);
 app.MapMethods(EmployeeGetAll.Template, EmployeeGetAll.Mehods, EmployeeGetAll.Handle);
 app.MapMethods(EmployeeGet_Dpper.Template, EmployeeGet_Dpper.Mehods, EmployeeGet_Dpper.Handle);
 
-app.MapMethods(TokenPost.Template, TokenPost.Mehods, TokenPost.Handle);
+app.MapMethods(ProductGetAll.Template, ProductGetAll.Mehods, ProductGetAll.Handle);
+app.MapMethods(ProductPost.Template, ProductPost.Mehods, ProductPost.Handle);
+
 
 app.Run();
