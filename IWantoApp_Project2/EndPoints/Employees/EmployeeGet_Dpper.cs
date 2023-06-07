@@ -12,11 +12,12 @@ public class EmployeeGet_Dpper
 
     //Este endpoint está sendo configurado usando o dapper
     [Authorize(Policy = "EmployeePolicy")]
-    public static IResult Action(int? page, int? rows, QuarydapperAllUserWithName quarydapper)
+    public static async Task<IResult> Action(int? page, int? rows, QuarydapperAllUserWithName quarydapper)
     {
         if (!page.HasValue || !rows.HasValue)
             return Results.NotFound("Não foi passado algum dos dados da paginação (page ou rows)");
 
-        return Results.Ok(quarydapper.Executa(page.Value, rows.Value));
+        var result = await quarydapper.Executa(page.Value, rows.Value);
+        return Results.Ok(result);
     }
 }

@@ -25,16 +25,14 @@ builder.Services.AddAuthorization(options =>
       .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
       .RequireAuthenticatedUser()
       .Build();
-
     //atribuindo politica  de permissão par quem pode usar um metodo
     options.AddPolicy("EmployeePolicy", p =>
         p.RequireAuthenticatedUser().RequireClaim("EmployeeCode"));
-
     options.AddPolicy("Employee005Policy", p =>
-        p.RequireAuthenticatedUser().RequireClaim("EmployeeCode","005"));
+        p.RequireAuthenticatedUser().RequireClaim("EmployeeCode", "005"));
 });
 
-////builder.Services.AddAuthorization();//Adicionado o serviço de autorização
+//builder.Services.AddAuthorization();//Adicionado o serviço de autorização
 builder.Services.AddAuthentication(x =>
 {//A baixo, Adicionado o serviço de Autenticação
     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

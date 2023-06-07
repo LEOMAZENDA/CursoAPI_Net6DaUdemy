@@ -11,12 +11,12 @@ public class EmployeePost
 
 
     //Este endpoint adiciona um user Identity
-    public static IResult Action(EmployeeRequest employeeRequest,HttpContext httpCont, UserManager<IdentityUser> userManager)
+    public static async Task<IResult> Action(EmployeeRequest employeeRequest,HttpContext httpCont, UserManager<IdentityUser> userManager)
     {
         //Obter o user Identity que fez a operação
-        //var userId = httpCont.User.Claims.First(u => u.Type == ClaimTypes.NameIdentifier).Value;
-        var user = new IdentityUser { UserName = employeeRequest.Email, Email = employeeRequest.Email };
-        var result = userManager.CreateAsync(user, employeeRequest.Password).Result;
+        var userId = httpCont.User.Claims.First(u => u.Type == ClaimTypes.NameIdentifier).Value;
+        var newUser = new IdentityUser { UserName = employeeRequest.Email, Email = employeeRequest.Email };
+        var result  = await userManager.CreateAsync(newUser, employeeRequest.Password);
 
 
         if (!result.Succeeded)
@@ -29,12 +29,11 @@ public class EmployeePost
              //new Claim("CreatedBy", userId)
         };
 
-        var claimRsult =
-            userManager.AddClaimsAsync(user, userClaims).Result;
+        var claimRsult = await userManager.AddClaimsAsync(newUser, userClaims);
 
         if (!claimRsult.Succeeded)
             return Results.BadRequest(result.Errors.First());
 
-        return Results.Created($"/employee/{user.Id}", user.Id);// Retornar o Id Salvo
+        return Results.Created($"/employee/{newUser.Id}", newUser.Id);// Retornar o Id Salvo
     }
 }
