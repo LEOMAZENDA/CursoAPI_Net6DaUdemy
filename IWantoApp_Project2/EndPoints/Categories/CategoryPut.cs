@@ -18,7 +18,7 @@ public class CategoryPut
         if (category == null)
             return Results.NotFound("Category não encontrada");
 
-        category.EditInfo(categoryRequest.Name, categoryRequest.Active);
+        category.EditInfo(categoryRequest.Name, categoryRequest.Active, userId);
 
         if (!category.IsValid)
             return Results.ValidationProblem(category.Notifications.ConvertToProblemDetails());

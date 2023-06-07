@@ -11,8 +11,10 @@ public class EmployeePost
 
 
     //Este endpoint adiciona um user Identity
-    public static IResult Action(EmployeeRequest employeeRequest, UserManager<IdentityUser> userManager)
+    public static IResult Action(EmployeeRequest employeeRequest,HttpContext httpCont, UserManager<IdentityUser> userManager)
     {
+        //Obter o user Identity que fez a operação
+        //var userId = httpCont.User.Claims.First(u => u.Type == ClaimTypes.NameIdentifier).Value;
         var user = new IdentityUser { UserName = employeeRequest.Email, Email = employeeRequest.Email };
         var result = userManager.CreateAsync(user, employeeRequest.Password).Result;
 
@@ -23,7 +25,8 @@ public class EmployeePost
         var userClaims = new List<Claim>
         {
             new Claim("EmployeeCode", employeeRequest.EmployeeCode),
-            new Claim("Name", employeeRequest.Name)
+            new Claim("Name", employeeRequest.Name),
+             //new Claim("CreatedBy", userId)
         };
 
         var claimRsult =
