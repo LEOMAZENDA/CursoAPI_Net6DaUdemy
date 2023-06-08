@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IWantoApp_Project2.Migrations
 {
     [DbContext(typeof(IWantDBContext))]
-    [Migration("20230607203521_ProductsUpdate")]
-    partial class ProductsUpdate
+    [Migration("20230607214401_DataBaseCreating")]
+    partial class DataBaseCreating
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -98,6 +98,9 @@ namespace IWantoApp_Project2.Migrations
                         .IsRequired()
                         .HasMaxLength(120)
                         .HasColumnType("nvarchar(120)");
+
+                    b.Property<decimal>("Preco")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 

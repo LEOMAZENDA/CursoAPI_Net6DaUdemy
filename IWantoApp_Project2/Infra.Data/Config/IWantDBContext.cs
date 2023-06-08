@@ -52,6 +52,8 @@ public class IWantDBContext : IdentityDbContext<IdentityUser>
         builder.Entity<Product>().Property(p => p.Desciption).HasMaxLength(255).IsRequired(false);
         builder.Entity<Product>().Property(p => p.Name).IsRequired();
         builder.Entity<Product>().Property(p => p.Name).IsRequired();
+        builder.Entity<Product>().Property(p => p.Preco).HasColumnType("decimal(18,2)").IsRequired();
+
         builder.Entity<Category>().Property(p => p.Name).IsRequired();
     }
 

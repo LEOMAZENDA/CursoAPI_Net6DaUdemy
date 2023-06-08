@@ -97,6 +97,9 @@ namespace IWantoApp_Project2.Migrations
                         .HasMaxLength(120)
                         .HasColumnType("nvarchar(120)");
 
+                    b.Property<decimal>("Preco")
+                        .HasColumnType("decimal(18,2)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");

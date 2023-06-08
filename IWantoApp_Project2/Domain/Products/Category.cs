@@ -4,7 +4,6 @@ namespace IWantoApp_Project2.Domain.Products;
 
 public class Category : Entity
 {
-    public Guid Id { get; private set; }
     public string Name { get; private set; }
 
 

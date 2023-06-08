@@ -19,7 +19,7 @@ public class ProductPost
         //Obter o user Identity que fez a operação
         var userId = httpCont.User.Claims.First(u => u.Type == ClaimTypes.NameIdentifier).Value;
         var category = await context.Categories.FirstOrDefaultAsync(c => c.Id == productRequest.CategoryId);
-        var product = new Product(productRequest.Name, category, productRequest.Desciption, productRequest.HasStock, userId);
+        var product = new Product(productRequest.Name, category, productRequest.Desciption, productRequest.Preco, productRequest.HasStock, userId);
 
         if (!product.IsValid)
         {

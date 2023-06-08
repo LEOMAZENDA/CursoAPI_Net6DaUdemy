@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace IWantoApp_Project2.Migrations
 {
-    public partial class StartDataBase : Migration
+    public partial class DataBaseCreating : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -177,14 +177,15 @@ namespace IWantoApp_Project2.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(120)", maxLength: 120, nullable: false),
+                    CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Desciption = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     HasStock = table.Column<bool>(type: "bit", nullable: false),
-                    CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Preco = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Active = table.Column<bool>(type: "bit", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(120)", maxLength: 120, nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EditedBy = table.Column<string>(type: "nvarchar(120)", maxLength: 120, nullable: false),
-                    EditedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Active = table.Column<bool>(type: "bit", nullable: false)
+                    EditedOn = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
