@@ -10,7 +10,6 @@ public class Product : Entity
     public string Desciption { get; private set; }
     public bool HasStock { get; private set; }
     public decimal Preco { get; private set; }
-    public bool  Active { get; private set; } = true;
 
     private Product() { }
 
@@ -39,7 +38,7 @@ public class Product : Entity
             //.IsNullOrEmpty(Desciption, "Desciption")
             //.IsGreaterOrEqualsThan(Desciption, 3, "Desciption")
             .IsNotNullOrEmpty(CreatedBy, "CreatedBy")
-            .IsGreaterOrEqualsThan(Preco, 1, "Preco", "O preço deve ser maior ou igual a zero")
+            .IsGreaterOrEqualsThan(Preco, 0, "Preco", "O preço deve ser maior ou igual a zero")
             .IsNotNullOrEmpty(EditedBy, "EditedBy");
         AddNotifications(contracto);
     }

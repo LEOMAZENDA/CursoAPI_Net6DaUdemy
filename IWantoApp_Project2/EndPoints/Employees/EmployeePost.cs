@@ -14,7 +14,7 @@ public class EmployeePost
     public static async Task<IResult> Action(EmployeeRequest employeeRequest,HttpContext httpCont, UserManager<IdentityUser> userManager)
     {
         //Obter o user Identity que fez a operação
-        var userId = httpCont.User.Claims.First(u => u.Type == ClaimTypes.NameIdentifier).Value;
+        //var userId = httpCont.User.Claims.First(u => u.Type == ClaimTypes.NameIdentifier).Value;
         var newUser = new IdentityUser { UserName = employeeRequest.Email, Email = employeeRequest.Email };
         var result  = await userManager.CreateAsync(newUser, employeeRequest.Password);
 

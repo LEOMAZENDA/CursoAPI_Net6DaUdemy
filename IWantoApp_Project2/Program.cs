@@ -5,7 +5,9 @@ using IWantoApp_Project2.EndPoints.TokenSecurity;
 using IWantoApp_Project2.Infra.Data.Config;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Data.SqlClient;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -35,7 +37,8 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 
 builder.Services.AddAuthorization();//Adicionado o serviço de autorização
 builder.Services.AddAuthentication(x =>
-{//A baixo, Adicionado o serviço de Autenticação
+{
+    //A baixo, Adicionado o serviço de Autenticação
     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 }).AddJwtBearer(options =>
@@ -84,8 +87,22 @@ app.MapMethods(EmployeePost.Template, EmployeePost.Mehods, EmployeePost.Handle);
 app.MapMethods(EmployeeGetAll.Template, EmployeeGetAll.Mehods, EmployeeGetAll.Handle);
 app.MapMethods(EmployeeGet_Dpper.Template, EmployeeGet_Dpper.Mehods, EmployeeGet_Dpper.Handle);
 
+app.MapMethods(ProductGetShowcase.Template, ProductGetShowcase.Mehods, ProductGetShowcase.Handle);
 app.MapMethods(ProductGetAll.Template, ProductGetAll.Mehods, ProductGetAll.Handle);
 app.MapMethods(ProductPost.Template, ProductPost.Mehods, ProductPost.Handle);
 
+app.UseExceptionHandler("/error");
+app.Map("/error", (HttpContext http) =>
+{
+    var error = http.Features.Get<IExceptionHandlerFeature>()?.Error;
+    if (error != null)
+    {
+        if (error is SqlException)
+            return Results.Problem(title: "Erro de Banco de dados");
+        else if (error is BadHttpRequestException)
+            return Results.Problem(title: "Erro ao converter tipo de dados para tipo diferente");
+    }
+    return Results.Problem(title: "Ango deu errado", statusCode: 500);
+});
 
 app.Run();

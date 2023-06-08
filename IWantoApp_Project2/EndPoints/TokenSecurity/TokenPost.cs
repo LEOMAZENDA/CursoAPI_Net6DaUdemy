@@ -14,7 +14,11 @@ public class TokenPost
     public static Delegate Handle => Action;
 
     [AllowAnonymous]
-    public static IResult Action(LoginRequest loginRequest, IConfiguration configuration, UserManager<IdentityUser> userManager)
+    public static IResult Action(
+        LoginRequest loginRequest, 
+        IConfiguration configuration, 
+        UserManager<IdentityUser> userManager,
+        IWebHostEnvironment environment)
     {
         var user = userManager.FindByEmailAsync(loginRequest.Email).Result;
         if (user == null)
@@ -40,8 +44,8 @@ public class TokenPost
                     new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
             Audience = configuration["JwtBearerTokenSettings:Audience"],
             Issuer = configuration["JwtBearerTokenSettings:Issuer"],
-            Expires = DateTime.UtcNow.AddSeconds(7200)  /*Duração do Token em segundos (2 minitos neste caso)*/
-
+            Expires = environment.IsDevelopment() || environment.IsStaging()? DateTime.UtcNow.AddMonths(12) : DateTime.UtcNow.AddMinutes(3) 
+            /*Duração do Token em meses em ambinete de homologação (2 meses neste caso)*/
         };
 
         var tokenHendler = new JwtSecurityTokenHandler();

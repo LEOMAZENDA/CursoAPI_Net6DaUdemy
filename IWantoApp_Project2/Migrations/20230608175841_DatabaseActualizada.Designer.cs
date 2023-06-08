@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IWantoApp_Project2.Migrations
 {
     [DbContext(typeof(IWantDBContext))]
-    [Migration("20230607214401_DataBaseCreating")]
-    partial class DataBaseCreating
+    [Migration("20230608175841_DatabaseActualizada")]
+    partial class DatabaseActualizada
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

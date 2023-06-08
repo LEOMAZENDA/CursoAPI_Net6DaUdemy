@@ -11,7 +11,7 @@ public class CategoryPost
     public static string[] Mehods => new string[] { HttpMethod.Post.ToString() };
     public static Delegate Handle => Action;
 
-    [Authorize("EmployeePolicy")]
+    //[Authorize("EmployeePolicy")]
     public static async Task<IResult> Action(CategoryRequest categoryRequest,HttpContext httpCont ,IWantDBContext context)
     {
         //Obter o user Identity que fez a operação

@@ -5,7 +5,7 @@ namespace IWantoApp_Project2.Domain.Products;
 public class Category : Entity
 {
     public string Name { get; private set; }
-
+    public bool Active { get; private set; } = true;
 
     public Category(string name, string createdBy, string editedBy)
     {
